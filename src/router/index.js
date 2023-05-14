@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import DevsList from '../views/DevsList.vue'
-import DevDetails from '../views/DevDetails.vue'
-import ContactDev from '../views/ContactDev.vue'
-import DevRegistration from '../views/DevRegistration.vue'
-import Requests from '../views/Requests.vue'
+import DevsList from '../views/devs/DevsList.vue'
+import DevDetails from '../views/devs/DevDetails.vue'
+import ContactDev from '../views/requests/ContactDev.vue'
+import DevRegistration from '../views/devs/DevRegistration.vue'
+import RequestsReceived from '../views/requests/RequestsReceived.vue'
 import NotFound from '../views/NotFound.vue'
 
 
@@ -16,20 +16,12 @@ const router = createRouter({
     { path: '/devs', component: DevsList },
     {
       path: '/devs/:id', component: DevDetails, props: true, children: [
-        { path: '/contact', component: ContactDev }
+        { path: 'contact', component: ContactDev }
       ]
     },
     { path: '/register', component: DevRegistration },
-    { path: '/requests', component: Requests },
+    { path: '/requests', component: RequestsReceived },
     { path: '/:notFound(.*)', component: NotFound }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
   ]
 })
 
