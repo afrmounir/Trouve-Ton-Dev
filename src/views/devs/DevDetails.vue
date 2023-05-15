@@ -1,7 +1,7 @@
 <template>
-  <main>
     <h2>Dev Details</h2>
-  </main>
+    <RouterView></RouterView>
+    <RouterLink to="/devs/d1/contact">Contact</RouterLink>
 </template>
 
 <script setup>

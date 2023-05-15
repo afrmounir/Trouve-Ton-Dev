@@ -29,13 +29,12 @@ header a {
   color: black;
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  border: 1px solid transparent;
 }
 
 a:active,
 a:hover,
 a.router-link-active {
-  border: 1px solid black;
+  color: slategrey;
 }
 
 h1 {
@@ -54,7 +53,6 @@ h1 a.router-link-active {
 }
 
 header nav {
-  width: 90%;
   margin: auto;
   display: flex;
   justify-content: space-between;

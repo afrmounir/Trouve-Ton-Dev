@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h2>Contact this dev</h2>
+    <h2>Contacte ce dev</h2>
   </main>
 </template>
 
