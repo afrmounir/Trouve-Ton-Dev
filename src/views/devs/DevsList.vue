@@ -1,8 +1,12 @@
 <template>
-  <main>
-    <h2>Devs List - Home</h2>
-  </main>
+  <section>
+    FILTRER
+  </section>
+  <section>
+    LISTE DES DEVS
+  </section>
 </template>
 
 <script setup>
 </script>
+
