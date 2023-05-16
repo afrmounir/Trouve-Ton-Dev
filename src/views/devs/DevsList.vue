@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useDevsStore } from '../../stores/devs'
+import DevItem from '../../components/devs/DevItem.vue'
 
 const store = useDevsStore()
 const { hasDevs, filteredDevs } = storeToRefs(store)
@@ -14,12 +15,21 @@ const { hasDevs, filteredDevs } = storeToRefs(store)
       <RouterLink to="/register">S'enregistrer</RouterLink>
     </div>
     <ul v-if="hasDevs">
-      <li v-for="dev in filteredDevs" :key="dev.id">
-        {{ `${dev.firstName} ${dev.lastName} - ${dev.areas}` }}
-        <br />
-        {{ `${dev.description}` }}
-      </li>
+      <DevItem v-for="dev in filteredDevs" :key="dev.id" v-bind="dev"></DevItem>
     </ul>
-    <h3 v-else>Impossible de charger la liste des devs...</H3>
+    <h3 v-else>Impossible de charger la liste des devs...</h3>
   </section>
 </template>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
