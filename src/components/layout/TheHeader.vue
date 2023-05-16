@@ -1,74 +1,73 @@
 <template>
   <header>
-    <h1><RouterLink to="/">Trouve Ton Dev</RouterLink></h1>
+    <h1>
+      <RouterLink to="/">Trouve Ton Dev</RouterLink>
+    </h1>
 
-    <div class="wrapper">
-      <nav>
-        <ul>
-          <li><RouterLink to="/devs">Devs</RouterLink></li>
-          <li><RouterLink to="/requests">Mes Demandes</RouterLink></li>
-        </ul>
-      </nav>
+    <nav>
+      <ul>
+        <li><RouterLink to="/devs">Devs</RouterLink></li>
+        <li><RouterLink to="/requests">Mes Demandes</RouterLink></li>
+      </ul>
+    </nav>
+
+    <div>
+      <base-button v-if="!true" mode="outline">Se Connecter</base-button>
+      <base-button v-if="true" mode="outline">Se Déconnecter</base-button>
     </div>
   </header>
 </template>
 
 <style scoped>
 header {
-  width: 100%;
   height: 5rem;
-  background-color: whitesmoke;
-  box-shadow: 0px 0px 4px;
+  background-color: white;
+  margin: 0 10%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-header a {
-  text-decoration: none;
-  color: black;
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-}
-
-a:active,
-a:hover,
-a.router-link-active {
-  color: slategrey;
-}
-
-h1 {
-  margin: 0;
-}
-
-h1 a {
-  color: black;
-  margin: 0;
-}
-
-h1 a:hover,
-h1 a:active,
-h1 a.router-link-active {
-  border-color: transparent;
-}
-
-header nav {
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header ul {
+ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-self: center;
   align-items: center;
 }
 
 li {
-  margin: 0 0.5rem;
+  margin: 0 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.25rem;
+}
+
+a:hover,
+a:active,
+a.router-link-active {
+  color: #45006d;
+  border-color: #45006d;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #45006d;
+  background-color: transparent;
+  color: #45006d;
+  border-radius: 30px;
+}
+
+button:hover,
+button:active {
+  background-color: #f0d5ff;
 }
 </style>
