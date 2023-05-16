@@ -20,11 +20,11 @@ export default {
     <h3>{{ fullName }}</h3>
     <h4>Taux Horaire: {{ hourlyRate }}€</h4>
     <div>
-      <span v-for="area in areas" :key="area">{{ area }}</span>
+      <base-badge v-for="area in areas" :key="area" :type="area" :title="area"></base-badge>
     </div>
     <div class="actions">
-      <RouterLink :to="devContactLink">Contactez ce développeur</RouterLink>
-      <RouterLink :to="devDetailsLink">Voir les détails</RouterLink>
+      <base-button mode="outline" link :to="devContactLink">Contactez ce développeur</base-button>
+      <base-button link :to="devDetailsLink">Voir les détails</base-button>
     </div>
   </li>
 </template>
