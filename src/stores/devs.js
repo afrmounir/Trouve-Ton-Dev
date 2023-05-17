@@ -104,8 +104,7 @@ export const useDevsStore = defineStore('devs', {
     }
   },
   getters: {
-    filteredDevs: (state) => state.devs,
-    hasDevs: (state) => state.devs && state.devs.length > 0,
-    fullDevName: (state) => `${state.devs.firstName} ${state.devs.lastName}`
+    getDevs: (state) => state.devs,
+    hasDevs: (state) => state.devs && state.devs.length > 0
   }
 })

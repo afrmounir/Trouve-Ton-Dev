@@ -2,18 +2,32 @@
 import { storeToRefs } from 'pinia'
 import { useDevsStore } from '../../stores/devs'
 import DevItem from '../../components/devs/DevItem.vue'
+import DevFilter from '../../components/devs/DevFilter.vue'
+import { computed } from 'vue'
 
 const store = useDevsStore()
-const { hasDevs, filteredDevs } = storeToRefs(store)
+const { hasDevs, getDevs } = storeToRefs(store)
+
+let activeFilters = []
+
+let filteredDevs = computed(() => {
+  return getDevs.value.filter((dev) => dev.areas.some(area => activeFilters.includes(area)))
+})
+
+function setFilters(updatedFilters) {
+  activeFilters = updatedFilters
+}
 </script>
 
 <template>
-  <section>FILTRER</section>
+  <section>
+    <DevFilter @update-filter="setFilters"></DevFilter>
+  </section>
   <section>
     <base-card>
       <div class="controls">
         <base-button mode="outline">Rafraîchir</base-button>
-        <base-button to="/register" link mode="flat">S'enregistrer</base-button>
+        <base-button to="/register" link mode="flat">Enregistrer un Dev</base-button>
       </div>
       <ul v-if="hasDevs">
         <DevItem v-for="dev in filteredDevs" :key="dev.id" v-bind="dev"></DevItem>
