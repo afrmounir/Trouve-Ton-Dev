@@ -7,7 +7,7 @@ const route = useRoute()
 const store = useDevsStore()
 const props = defineProps({ id: String })
 
-const selectedDev = store.filteredDevs.find((dev) => dev.id === props.id)
+const selectedDev = store.getDevs.find((dev) => dev.id === props.id)
 
 const fullName = computed(() => `${selectedDev.firstName} ${selectedDev.lastName}`)
 const devContactLink = computed(() => `${route.path}/contact`)
