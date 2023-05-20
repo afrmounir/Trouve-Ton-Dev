@@ -25,17 +25,17 @@ const description = computed(() => selectedDev.description)
   </section>
   <section>
     <base-card>
+      <base-badge v-for="area in areas" :key="area" :type="area" :title="area"></base-badge>
+      <p>{{ description }}</p>
+    </base-card>
+  </section>
+  <section>
+    <base-card>
       <header>
         <h2>Intéressé? Entrez immédiatement en contact!</h2>
         <base-button link :to="`${devContactLink}`">Contactez ce développeur</base-button>
       </header>
       <RouterView></RouterView>
-    </base-card>
-  </section>
-  <section>
-    <base-card>
-      <base-badge v-for="area in areas" :key="area" :type="area" :title="area"></base-badge>
-      <p>{{ description }}</p>
     </base-card>
   </section>
 </template>
