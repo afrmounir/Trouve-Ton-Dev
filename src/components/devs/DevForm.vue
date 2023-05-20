@@ -26,7 +26,7 @@ export default {
     }
   },
   methods: {
-    setFilter(event) {
+    setAreas(event) {
       const { id, checked } = event.target
 
       if (checked) {
@@ -35,22 +35,19 @@ export default {
         const index = this.devAreas.findIndex((area) => area === id)
         this.devAreas.splice(index, 1)
       }
-
-      this.$emit('update-dev-areas', this.devAreas)
     },
     isActive(area) {
       return this.devAreas.includes(area)
     },
     submitForm() {
       const formData = {
-        id: 'd1',
         firstName: this.firstName,
         lastName: this.lastName,
         areas: this.devAreas,
         description: this.description,
         hourlyRate: this.hourlyRate
       }
-      console.log(formData)
+      this.$emit('update-dev-areas', formData)
     }
   }
 }
@@ -78,7 +75,7 @@ export default {
       <h3>Stack Technique</h3>
       <template v-for="area in areas" :key="area">
         <span class="filter-option" :class="{ active: this.isActive(area) }">
-          <input type="checkbox" :id="area" @change="setFilter" />
+          <input type="checkbox" :id="area" @change="setAreas" />
           <label :for="area">{{ area }}</label>
         </span>
       </template>

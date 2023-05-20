@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, markRaw } from 'vue'
 import { createPinia } from 'pinia'
 
 import router from './router'
@@ -8,9 +8,14 @@ import BaseButton from './components/UI/BaseButton.vue'
 import BaseBadge from './components/UI/BaseBadge.vue'
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.use(router)
-app.use(createPinia())
+app.use(pinia)
+
+pinia.use(({ store }) => {
+  store.router = markRaw(router)
+})
 
 app.component('base-card', BaseCard)
 app.component('base-button', BaseButton)

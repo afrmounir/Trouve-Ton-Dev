@@ -106,5 +106,20 @@ export const useDevsStore = defineStore('devs', {
   getters: {
     getDevs: (state) => state.devs,
     hasDevs: (state) => state.devs && state.devs.length > 0
+  },
+  actions: {
+    registerDev(devData) {
+      const dev = {
+        id: 'd' + (this.devs.length + 1),
+        firstName: devData.firstName,
+        lastName: devData.lastName,
+        areas: devData.areas,
+        description: devData.description,
+        hourlyRate: devData.hourlyRate
+      }
+
+      this.devs.unshift(dev);
+      this.router.replace('/devs')
+    }
   }
 })
