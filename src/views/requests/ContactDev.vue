@@ -1,10 +1,14 @@
 <script>
+import { useRequestsStore } from '../../stores/requests'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
 
 export default {
   setup() {
-    return { v$: useVuelidate() }
+    return {
+      v$: useVuelidate(),
+      store: useRequestsStore()
+    }
   },
   data() {
     return {
@@ -21,14 +25,16 @@ export default {
   methods: {
     async submitForm() {
       const isFormCorrect = await this.v$.$validate()
+      const devId = this.$router.currentRoute.value.params.id;
 
       if (isFormCorrect) {
         const formData = {
+          devId,
           email: this.email,
           message: this.message
         }
-        console.log(formData)
-        //this.$emit('submit-contact-form', formData)
+
+        this.store.contactDev(formData)
       }
     }
   }
