@@ -8,7 +8,7 @@ export const useRequestsStore = defineStore('requests', {
   },
   getters: {
     getRequests: (state) => state.requests,
-    hasDevs: (state) => state.requests && state.requests.length > 0
+    hasRequests: (state) => state.requests && state.requests.length > 0
   },
   actions: {
     addRequest(requestData) {
@@ -17,7 +17,7 @@ export const useRequestsStore = defineStore('requests', {
     },
     contactDev(contactForm) {
       const newRequest = {
-        id: new Date().toISOString,
+        id: new Date().toISOString(),
         devId: contactForm.devId,
         userEmail: contactForm.email,
         userMessage: contactForm.message
