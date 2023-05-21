@@ -120,6 +120,10 @@ export const useDevsStore = defineStore('devs', {
 
       this.devs.unshift(dev);
       this.router.replace('/devs')
+    },
+    getDevById(id) {
+      const dev = this.devs.find(dev => dev.id === id);
+      return dev;
     }
   }
 })

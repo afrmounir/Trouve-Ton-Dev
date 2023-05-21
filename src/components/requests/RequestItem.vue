@@ -1,9 +1,20 @@
 <script>
+import { useDevsStore } from '../../stores/devs';
+
 export default {
-  props: ['userEmail', 'userMessage'],
+  setup() {
+    return {
+      store: useDevsStore()
+    }
+  },
+  props: ['userEmail', 'userMessage', 'devId'],
   computed: {
     emailLink() {
       return `mailto:${this.email}`
+    },
+    getDev() {
+      const dev = this.store.getDevById(this.devId)
+      return `${dev.firstName} ${dev.lastName}`
     }
   }
 }
@@ -11,10 +22,11 @@ export default {
 
 <template>
   <li>
+    <h3>Demande pour : {{ getDev }}</h3>
     <div>
-      <a :href="emailLink">{{ userEmail }}</a>
+      De : <a :href="emailLink">{{ userEmail }}</a>
     </div>
-    <p>{{ userMessage }}</p>
+    <p>Message : {{ userMessage }}</p>
   </li>
 </template>
 
@@ -38,5 +50,9 @@ a:active {
 
 p {
   margin: 0.5rem 0 0 0;
+}
+
+h3 {
+  margin-top: 0;
 }
 </style>
