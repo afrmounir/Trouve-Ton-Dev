@@ -8,6 +8,8 @@ import { computed } from 'vue'
 const store = useDevsStore()
 const { hasDevs, getDevs } = storeToRefs(store)
 
+loadDevs();
+
 let activeFilters = []
 
 let filteredDevs = computed(() => {
@@ -16,6 +18,11 @@ let filteredDevs = computed(() => {
 
 function setFilters(updatedFilters) {
   activeFilters = updatedFilters
+}
+
+function loadDevs() {
+  const API_URL = import.meta.env.VITE_BASE_URL
+  store.fetchDevs(API_URL + "devs.json")
 }
 </script>
 
@@ -26,7 +33,7 @@ function setFilters(updatedFilters) {
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline">Rafraîchir</base-button>
+        <base-button mode="outline" @click="loadDevs">Rafraîchir</base-button>
         <base-button to="/register" link mode="flat">Enregistrer un Dev</base-button>
       </div>
       <ul v-if="hasDevs">
