@@ -26,8 +26,12 @@ export const useDevsStore = defineStore('devs', {
         body: JSON.stringify(dev)
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        //error handling
+        const error = new Error(responseData.message || 'Impossible d\'enregistrer un dev, veuillez réessayer ultérieurement');
+
+        throw error;
       }
 
       this.devs.unshift(dev);
@@ -57,7 +61,9 @@ export const useDevsStore = defineStore('devs', {
       const responseData = await response.json();
 
       if (!response.ok) {
-        //handle error
+        const error = new Error(responseData.message || 'Impossible de récupérer la liste des devs, veuillez réessayer ultérieurement');
+
+        throw error;
       }
 
       const devs = [];

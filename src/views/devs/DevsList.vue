@@ -9,7 +9,8 @@ import { reactive } from 'vue'
 const store = useDevsStore()
 const { hasDevs, getDevs } = storeToRefs(store)
 const state = reactive({
-  isLoading: false
+  isLoading: false,
+  error: null
 })
 
 loadDevs()
@@ -26,15 +27,24 @@ function setFilters(updatedFilters) {
 
 async function loadDevs() {
   state.isLoading = true
-  console.log('true');
-  const API_URL = import.meta.env.VITE_BASE_URL
-  await store.fetchDevs(API_URL + 'devs.json')
-  state.isLoading = false
-  console.log('false')
+  try {
+    const API_URL = import.meta.env.VITE_BASE_URL
+    await store.fetchDevs(API_URL + 'devs.json')
+    state.isLoading = false
+  } catch (error) {
+    state.error = error.message || "Quelque chose s'est mal passé... "
+  }
+}
+
+function handleError() {
+  state.error = null
 }
 </script>
 
 <template>
+  <base-dialog :show="!!state.error" title="Une erreur est survenue" @close="handleError">
+    <p>{{ state.error }}</p>
+  </base-dialog>
   <section>
     <DevFilter @update-filter="setFilters"></DevFilter>
   </section>
