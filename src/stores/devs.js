@@ -108,14 +108,23 @@ export const useDevsStore = defineStore('devs', {
     hasDevs: (state) => state.devs && state.devs.length > 0
   },
   actions: {
-    registerDev(devData) {
+    async registerDev(devData, API_URL) {
+      const devId = 'd' + (this.devs.length + 1)
       const dev = {
-        id: 'd' + (this.devs.length + 1),
         firstName: devData.firstName,
         lastName: devData.lastName,
         areas: devData.areas,
         description: devData.description,
         hourlyRate: devData.hourlyRate
+      };
+
+      const response = await fetch(API_URL + `devs/${devId}.json`, {
+        method: 'PUT',
+        body: JSON.stringify(dev)
+      });
+
+      if (!response.ok) {
+        //error handling
       }
 
       this.devs.unshift(dev);

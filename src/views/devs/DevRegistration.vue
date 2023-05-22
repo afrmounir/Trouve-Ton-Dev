@@ -5,7 +5,8 @@ import DevForm from '../../components/devs/DevForm.vue'
 const store = useDevsStore()
 
 function saveData(devData) {
-  store.registerDev(devData)
+  const API_URL = import.meta.env.VITE_BASE_URL
+  store.registerDev(devData, API_URL)
 }
 </script>
 
