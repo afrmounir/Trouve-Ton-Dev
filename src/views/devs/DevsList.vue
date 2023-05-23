@@ -42,25 +42,27 @@ function handleError() {
 </script>
 
 <template>
-  <base-dialog :show="!!state.error" title="Une erreur est survenue" @close="handleError">
-    <p>{{ state.error }}</p>
-  </base-dialog>
-  <section>
-    <DevFilter @update-filter="setFilters"></DevFilter>
-  </section>
-  <section>
-    <base-card>
-      <div class="controls">
-        <base-button mode="outline" @click="loadDevs(true)">Rafraîchir</base-button>
-        <base-button to="/register" link mode="flat">Enregistrer un Dev</base-button>
-      </div>
-      <base-spinner v-if="state.isLoading"></base-spinner>
-      <ul v-else-if="hasDevs">
-        <DevItem v-for="dev in filteredDevs" :key="dev.id" v-bind="dev"></DevItem>
-      </ul>
-      <h3 v-else>Impossible de charger la liste des devs...</h3>
-    </base-card>
-  </section>
+  <div>
+    <base-dialog :show="!!state.error" title="Une erreur est survenue" @close="handleError">
+      <p>{{ state.error }}</p>
+    </base-dialog>
+    <section>
+      <DevFilter @update-filter="setFilters"></DevFilter>
+    </section>
+    <section>
+      <base-card>
+        <div class="controls">
+          <base-button mode="outline" @click="loadDevs(true)">Rafraîchir</base-button>
+          <base-button to="/register" link mode="flat">Enregistrer un Dev</base-button>
+        </div>
+        <base-spinner v-if="state.isLoading"></base-spinner>
+        <ul v-else-if="hasDevs">
+          <DevItem v-for="dev in filteredDevs" :key="dev.id" v-bind="dev"></DevItem>
+        </ul>
+        <h3 v-else>Impossible de charger la liste des devs...</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <style scoped>

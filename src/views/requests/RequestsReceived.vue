@@ -54,26 +54,28 @@ export default {
 </script>
 
 <template>
-  <base-dialog :show="!!this.error" title="Une erreur est survenue" @close="handleError">
-    <p>{{ this.error }}</p>
-  </base-dialog>
-  <section>
-    <base-card>
-      <header>
-        <h2>Demandes reçues</h2>
-      </header>
-      <base-spinner v-if="this.isLoading"></base-spinner>
-      <template v-else-if="hasRequests">
-        <ul v-for="requestsByDev in receivedRequests" :key="requestsByDev.id">
-          <h3>Pour: {{ getDev(requestsByDev.devId) }}</h3>
-          <base-card v-for="request in requestsByDev.requests" :key="request">
-            <RequestItem v-bind="request[1]"></RequestItem>
-          </base-card>
-        </ul>
-      </template>
-      <h3 v-else>Vous n'avez pas encore reçu de demande. Revenez plus tard.</h3>
-    </base-card>
-  </section>
+  <div>
+    <base-dialog :show="!!this.error" title="Une erreur est survenue" @close="handleError">
+      <p>{{ this.error }}</p>
+    </base-dialog>
+    <section>
+      <base-card>
+        <header>
+          <h2>Demandes reçues</h2>
+        </header>
+        <base-spinner v-if="this.isLoading"></base-spinner>
+        <template v-else-if="hasRequests">
+          <ul v-for="requestsByDev in receivedRequests" :key="requestsByDev.id">
+            <h3>Pour: {{ getDev(requestsByDev.devId) }}</h3>
+            <base-card v-for="request in requestsByDev.requests" :key="request">
+              <RequestItem v-bind="request[1]"></RequestItem>
+            </base-card>
+          </ul>
+        </template>
+        <h3 v-else>Vous n'avez pas encore reçu de demande. Revenez plus tard.</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <style scoped>
