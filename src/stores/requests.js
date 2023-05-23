@@ -11,18 +11,49 @@ export const useRequestsStore = defineStore('requests', {
     hasRequests: (state) => state.requests && state.requests.length > 0
   },
   actions: {
-    addRequest(requestData) {
-      this.requests.unshift(requestData);
-      this.router.replace('/devs');
-    },
-    contactDev(contactForm) {
+    async contactDev(contactForm, API_URL) {
       const newRequest = {
-        id: new Date().toISOString(),
-        devId: contactForm.devId,
         userEmail: contactForm.email,
         userMessage: contactForm.message
       };
-      this.addRequest(newRequest);
+
+      const response = await fetch(API_URL + `requests/${contactForm.devId}.json`, {
+        method: 'POST',
+        body: JSON.stringify(newRequest)
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(responseData.message || 'Impossible d\'envoyer une demande, veuillez réessayer ultérieurement');
+        throw error;
+      }
+
+      newRequest.id = responseData.name;
+      newRequest.devId = contactForm.devId
+
+      this.router.replace('/requests');
+    },
+    async fetchRequests(API_URL) {
+      const response = await fetch(API_URL + `requests.json`);
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(responseData.message || 'Impossible de récupérer les demandes, veuillez réessayer ultérieurement');
+        throw error;
+      }
+
+      const requests = [];
+
+      for (const key in responseData) {
+        const requestsForThisDev = Object.entries(responseData[key]);
+        const requestsByDev = {
+          devId: key,
+          requests: requestsForThisDev
+        }
+        requests.push(requestsByDev);
+      }
+      this.requests = [...requests];
     }
   }
 })

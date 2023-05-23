@@ -57,7 +57,7 @@ export const useDevsStore = defineStore('devs', {
     //   }
     // },
     async fetchDevs(API_URL) {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL + 'devs.json');
       const responseData = await response.json();
 
       if (!response.ok) {

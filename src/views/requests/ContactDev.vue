@@ -13,7 +13,8 @@ export default {
   data() {
     return {
       email: '',
-      message: ''
+      message: '',
+      API_URL: import.meta.env.VITE_BASE_URL
     }
   },
   validations() {
@@ -33,8 +34,7 @@ export default {
           email: this.email,
           message: this.message
         }
-
-        this.store.contactDev(formData)
+        this.store.contactDev(formData, this.API_URL)
       }
     }
   }

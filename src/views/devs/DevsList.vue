@@ -29,7 +29,7 @@ async function loadDevs() {
   state.isLoading = true
   try {
     const API_URL = import.meta.env.VITE_BASE_URL
-    await store.fetchDevs(API_URL + 'devs.json')
+    await store.fetchDevs(API_URL)
     state.isLoading = false
   } catch (error) {
     state.error = error.message || "Quelque chose s'est mal passé... "
