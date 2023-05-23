@@ -25,11 +25,11 @@ function setFilters(updatedFilters) {
   activeFilters = updatedFilters
 }
 
-async function loadDevs() {
+async function loadDevs(forcedRefresh = false) {
   state.isLoading = true
   try {
     const API_URL = import.meta.env.VITE_BASE_URL
-    await store.fetchDevs(API_URL)
+    await store.fetchDevs(API_URL, forcedRefresh)
     state.isLoading = false
   } catch (error) {
     state.error = error.message || "Quelque chose s'est mal passé... "
@@ -51,7 +51,7 @@ function handleError() {
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline" @click="loadDevs">Rafraîchir</base-button>
+        <base-button mode="outline" @click="loadDevs(true)">Rafraîchir</base-button>
         <base-button to="/register" link mode="flat">Enregistrer un Dev</base-button>
       </div>
       <base-spinner v-if="state.isLoading"></base-spinner>

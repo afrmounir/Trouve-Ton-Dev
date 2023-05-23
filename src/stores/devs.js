@@ -3,12 +3,23 @@ import { defineStore } from 'pinia'
 export const useDevsStore = defineStore('devs', {
   state: () => {
     return {
-      devs: []
+      devs: [],
+      lastFetch: null, //store time stamp to calculate when we refetch cache http response data 
     }
   },
   getters: {
     getDevs: (state) => state.devs,
-    hasDevs: (state) => state.devs && state.devs.length > 0
+    hasDevs: (state) => state.devs && state.devs.length > 0,
+    shouldUpdate: (state) => {//should update if lastFetch is null (never updated) or if 1 minute has passed before last fetch
+      const lastFetch = state.lastFetch;
+      if (!lastFetch) {
+        return true
+      }
+
+      const currentTimeStamp = new Date().getTime();
+
+      return (currentTimeStamp - lastFetch) / 1000 > 60
+    }
   },
   actions: {
     async registerDev(devData, API_URL) {
@@ -56,7 +67,11 @@ export const useDevsStore = defineStore('devs', {
     //     }
     //   }
     // },
-    async fetchDevs(API_URL) {
+    async fetchDevs(API_URL, forcedRefresh) {
+      if (!forcedRefresh && !this.shouldUpdate) {
+        return;
+      }
+      
       const response = await fetch(API_URL + 'devs.json');
       const responseData = await response.json();
 
@@ -82,10 +97,14 @@ export const useDevsStore = defineStore('devs', {
       }
 
       this.devs = devs;
+      this.setFetchTimeStamp();
     },
     getDevById(id) {
       const dev = this.devs.find(dev => dev.id === id);
       return dev;
+    },
+    setFetchTimeStamp() {
+      this.lastFetch = new Date().getTime();
     }
   }
 })
