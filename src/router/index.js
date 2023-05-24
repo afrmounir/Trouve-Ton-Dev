@@ -5,6 +5,8 @@ import DevDetails from '../views/devs/DevDetails.vue'
 import ContactDev from '../views/requests/ContactDev.vue'
 import DevRegistration from '../views/devs/DevRegistration.vue'
 import RequestsReceived from '../views/requests/RequestsReceived.vue'
+import UserLogin from '../views/auth/UserLogin.vue';
+import UserSignup from '../views/auth/UserSignup.vue';
 import NotFound from '../views/NotFound.vue'
 
 
@@ -21,6 +23,8 @@ const router = createRouter({
     },
     { path: '/register', component: DevRegistration },
     { path: '/requests', component: RequestsReceived },
+    { path: '/login', component: UserLogin },
+    { path: '/signup', component: UserSignup },
     { path: '/:notFound(.*)', component: NotFound }
   ]
 })
