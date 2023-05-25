@@ -1,15 +1,18 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
+import { useAuthStore } from '../../stores/auth'
 
 export default {
   setup() {
     return {
-      v$: useVuelidate()
+      v$: useVuelidate(),
+      store: useAuthStore()
     }
   },
   data() {
     return {
+      SIGNUP_ENDPOINT: import.meta.env.VITE_SIGNUP_ENDPOINT,
       email: '',
       password: '',
       confirmPassword: '',
@@ -30,11 +33,10 @@ export default {
       if (isFormCorrect) {
         const formData = {
           email: this.email,
-          password: this.password,
-          confirmPassword: this.confirmPassword
+          password: this.password
         }
-        console.log(formData)
-        //send http request
+
+        this.store.signup(this.SIGNUP_ENDPOINT, formData)
       }
     }
   }
