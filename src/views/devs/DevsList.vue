@@ -1,17 +1,21 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useDevsStore } from '../../stores/devs'
+import { useAuthStore } from '../../stores/auth'
 import DevItem from '../../components/devs/DevItem.vue'
 import DevFilter from '../../components/devs/DevFilter.vue'
 import { computed } from 'vue'
 import { reactive } from 'vue'
 
 const store = useDevsStore()
+const authStore = useAuthStore()
 const { hasDevs, getDevs } = storeToRefs(store)
 const state = reactive({
   isLoading: false,
   error: null
 })
+
+const isLoggedIn = computed(() => authStore.isAuthenticate)
 
 loadDevs()
 
@@ -53,7 +57,8 @@ function handleError() {
       <base-card>
         <div class="controls">
           <base-button mode="outline" @click="loadDevs(true)">Rafraîchir</base-button>
-          <base-button to="/register" link mode="flat">Enregistrer un Dev</base-button>
+          <base-button v-if="!isLoggedIn" to="/login" link mode="flat">Se connecter pour enregistrer un dev</base-button>
+          <base-button v-if="isLoggedIn" to="/register" link mode="flat">Enregistrer un Dev</base-button>
         </div>
         <base-spinner v-if="state.isLoading"></base-spinner>
         <ul v-else-if="hasDevs">

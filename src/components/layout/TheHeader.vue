@@ -1,3 +1,12 @@
+<script setup>
+import { useAuthStore } from '../../stores/auth'
+import { computed } from 'vue'
+
+const authStore = useAuthStore()
+
+const isLoggedIn = computed(() => authStore.isAuthenticate)
+</script>
+
 <template>
   <header>
     <h1>
@@ -12,8 +21,8 @@
     </nav>
 
     <div>
-      <base-button v-if="!true" mode="outline">Se Connecter</base-button>
-      <base-button v-if="true" mode="outline">Se Déconnecter</base-button>
+      <base-button v-if="!isLoggedIn" link to="/login" mode="outline">Se Connecter</base-button>
+      <base-button v-if="isLoggedIn" link to="/logout" mode="outline">Se Déconnecter</base-button>
     </div>
   </header>
 </template>
