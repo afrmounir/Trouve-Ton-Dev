@@ -59,6 +59,11 @@ export const useAuthStore = defineStore('auth', {
       this.tokenExpiration = responseData.expiresIn;
 
       this.router.replace('/login');
+    },
+    logout() {
+      this.userId = null,
+      this.token = null,
+      this.tokenExpiration = null
     }
   }
 })

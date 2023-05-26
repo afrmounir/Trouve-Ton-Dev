@@ -5,6 +5,10 @@ import { computed } from 'vue'
 const authStore = useAuthStore()
 
 const isLoggedIn = computed(() => authStore.isAuthenticate)
+
+function logout() {
+  authStore.logout()
+}
 </script>
 
 <template>
@@ -22,7 +26,7 @@ const isLoggedIn = computed(() => authStore.isAuthenticate)
 
     <div>
       <base-button v-if="!isLoggedIn" link to="/login" mode="outline">Se Connecter</base-button>
-      <base-button v-if="isLoggedIn" link to="/logout" mode="outline">Se Déconnecter</base-button>
+      <base-button v-if="isLoggedIn" mode="outline" @click="logout">Se Déconnecter</base-button>
     </div>
   </header>
 </template>
