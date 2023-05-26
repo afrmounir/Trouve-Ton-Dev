@@ -9,7 +9,8 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   getters: {
-    getUserId: (state) => state.userId
+    getUserId: (state) => state.userId,
+    getToken: (state) => state.token
   },
   actions: {
     async login(API_URL, authData) {

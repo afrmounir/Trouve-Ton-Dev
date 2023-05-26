@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useAuthStore } from './auth';
 
 export const useRequestsStore = defineStore('requests', {
   state: () => {
@@ -35,7 +36,9 @@ export const useRequestsStore = defineStore('requests', {
       this.router.replace('/requests');
     },
     async fetchRequests(API_URL) {
-      const response = await fetch(API_URL + `requests.json`);
+      const authStore = useAuthStore();
+      const token = authStore.getToken;
+      const response = await fetch(`${API_URL}requests.json?auth=${token}`);
       const responseData = await response.json();
 
       if (!response.ok) {

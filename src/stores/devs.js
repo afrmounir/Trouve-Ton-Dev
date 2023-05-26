@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useAuthStore } from './auth';
 
 export const useDevsStore = defineStore('devs', {
   state: () => {
@@ -32,7 +33,10 @@ export const useDevsStore = defineStore('devs', {
         hourlyRate: devData.hourlyRate
       };
 
-      const response = await fetch(API_URL + `devs/${devId}.json`, {
+      const authStore = useAuthStore();
+      const token = authStore.getToken;
+
+      const response = await fetch(API_URL + `devs/${devId}.json?auth=${token}`, {
         method: 'PUT',
         body: JSON.stringify(dev)
       });
@@ -71,7 +75,7 @@ export const useDevsStore = defineStore('devs', {
       if (!forcedRefresh && !this.shouldUpdate) {
         return;
       }
-      
+
       const response = await fetch(API_URL + 'devs.json');
       const responseData = await response.json();
 
