@@ -16,7 +16,8 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
-      mode: 'login'
+      isLoading: false,
+      error: null
     }
   },
   validations() {
@@ -31,45 +32,64 @@ export default {
       const isFormCorrect = await this.v$.$validate()
 
       if (isFormCorrect) {
-        const formData = {
-          email: this.email,
-          password: this.password
-        }
+        try {
+          this.isLoading = true
 
-        this.store.signup(this.SIGNUP_ENDPOINT, formData)
+          const formData = {
+            email: this.email,
+            password: this.password
+          }
+
+          await this.store.signup(this.SIGNUP_ENDPOINT, formData)
+        } catch (error) {
+          this.error =
+            error.message || 'Impossible de vous enregistrer, veuillez réessayer ultérieurement'
+        }
       }
+      this.isLoading = false
+    },
+    handleErrorDialog() {
+      this.error = null
     }
   }
 }
 </script>
 
 <template>
-  <base-card>
-    <form @submit.prevent="submitForm">
-      <div class="form-control" :class="{ error: v$.email.$error }">
-        <label for="email">E-Mail</label>
-        <input type="email" id="email" name="email" v-model.trim="email" />
-        <p v-if="v$.email.$error">Veuillez entrez un email</p>
-      </div>
-      <div class="form-control" :class="{ error: v$.password.$error }">
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" v-model.trim="password" />
-        <p v-if="v$.password.$error">Veuillez entrez un mot de passe d'au moins 5 caractères</p>
-      </div>
-      <div class="form-control" :class="{ error: v$.confirmPassword.$error }">
-        <label for="confirm-password">Confirmer le mot de passe</label>
-        <input
-          type="password"
-          id="confirm-password"
-          name="confirm-password"
-          v-model.trim="confirmPassword"
-        />
-        <p v-if="v$.confirmPassword.$error">Les mots de passe doivent être identiques</p>
-      </div>
-      <base-button>S'enregistrer</base-button>
-      <base-button link to="/login" mode="flat">Se Connecter</base-button>
-    </form>
-  </base-card>
+  <div>
+    <base-dialog :show="!!error" title="Une erreur est survenue" @close="handleErrorDialog">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <base-dialog :show="isLoading" title="Enregistrement..." fixed>
+      <base-spinner></base-spinner>
+    </base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm">
+        <div class="form-control" :class="{ error: v$.email.$error }">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" name="email" v-model.trim="email" />
+          <p v-if="v$.email.$error">Veuillez entrez un email</p>
+        </div>
+        <div class="form-control" :class="{ error: v$.password.$error }">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" v-model.trim="password" />
+          <p v-if="v$.password.$error">Veuillez entrez un mot de passe d'au moins 5 caractères</p>
+        </div>
+        <div class="form-control" :class="{ error: v$.confirmPassword.$error }">
+          <label for="confirm-password">Confirmer le mot de passe</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            v-model.trim="confirmPassword"
+          />
+          <p v-if="v$.confirmPassword.$error">Les mots de passe doivent être identiques</p>
+        </div>
+        <base-button>S'enregistrer</base-button>
+        <base-button link to="/login" mode="flat">Se Connecter</base-button>
+      </form>
+    </base-card>
+  </div>
 </template>
 
 <style scoped>
