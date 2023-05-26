@@ -34,8 +34,6 @@ export const useAuthStore = defineStore('auth', {
       this.localId = responseData.localId;
       this.token = responseData.idToken;
       this.tokenExpiration = responseData.expiresIn;
-
-      this.router.replace('/devs');
     },
     async signup(API_URL, authData) {
       const response = await fetch(API_URL, {
@@ -64,6 +62,8 @@ export const useAuthStore = defineStore('auth', {
       this.userId = null,
       this.token = null,
       this.tokenExpiration = null
+
+      this.router.replace('/devs');
     }
   }
 })

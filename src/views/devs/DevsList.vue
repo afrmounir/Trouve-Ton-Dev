@@ -57,7 +57,7 @@ function handleError() {
       <base-card>
         <div class="controls">
           <base-button mode="outline" @click="loadDevs(true)">Rafraîchir</base-button>
-          <base-button v-if="!isLoggedIn" to="/login" link mode="flat">Se connecter pour enregistrer un dev</base-button>
+          <base-button v-if="!isLoggedIn" to="/login?redirect=register" link mode="flat">Se connecter pour enregistrer un dev</base-button>
           <base-button v-if="isLoggedIn" to="/register" link mode="flat">Enregistrer un Dev</base-button>
         </div>
         <base-spinner v-if="state.isLoading"></base-spinner>

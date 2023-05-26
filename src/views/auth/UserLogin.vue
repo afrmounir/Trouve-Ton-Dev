@@ -39,6 +39,10 @@ export default {
           }
 
           await this.store.login(this.LOGIN_ENDPOINT, formData)
+
+          const redirectUrl = `/${this.$route.query.redirect || 'devs'}`
+
+          this.$router.replace(redirectUrl)
         } catch (error) {
           this.error =
             error.message || 'Impossible de vous connecter, veuillez réessayer ultérieurement'
