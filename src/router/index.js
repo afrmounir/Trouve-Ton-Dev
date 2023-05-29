@@ -4,11 +4,8 @@ import { useAuthStore } from '../stores/auth'
 
 import DevsList from '../views/devs/DevsList.vue'
 import DevDetails from '../views/devs/DevDetails.vue'
-import ContactDev from '../views/requests/ContactDev.vue'
-import DevRegistration from '../views/devs/DevRegistration.vue'
 import RequestsReceived from '../views/requests/RequestsReceived.vue'
 import UserLogin from '../views/auth/UserLogin.vue';
-import UserSignup from '../views/auth/UserSignup.vue';
 import NotFound from '../views/NotFound.vue'
 
 const router = createRouter({
@@ -18,13 +15,13 @@ const router = createRouter({
     { name: 'devs', path: '/devs', component: DevsList },
     {
       path: '/devs/:id', component: DevDetails, props: true, children: [
-        { path: 'contact', component: ContactDev }
+        { path: 'contact', component: () => import('../views/requests/ContactDev.vue') }
       ]
     },
-    { path: '/register', component: DevRegistration, meta: { requiresAuth: true } },
+    { path: '/register', component: () => import('../views/devs/DevRegistration.vue'), meta: { requiresAuth: true } },
     { path: '/requests', component: RequestsReceived, meta: { requiresAuth: true } },
     { name: 'login', path: '/login', component: UserLogin, meta: { requiresUnAuth: true } },
-    { path: '/signup', component: UserSignup },
+    { path: '/signup', component: () => import('../views/auth/UserSignup.vue') },
     { path: '/:notFound(.*)', component: NotFound }
   ]
 })
