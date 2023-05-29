@@ -1,7 +1,12 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { useAuthStore } from './stores/auth'
 
 import TheHeader from './components/layout/TheHeader.vue'
+
+const authStore = useAuthStore()
+
+authStore.tryLogin()
 </script>
 
 <template>

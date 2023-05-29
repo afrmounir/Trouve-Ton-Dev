@@ -31,6 +31,9 @@ export const useAuthStore = defineStore('auth', {
         throw error;
       }
 
+      localStorage.setItem('token', responseData.idToken)
+      localStorage.setItem('userId', responseData.localId)
+
       this.localId = responseData.localId;
       this.token = responseData.idToken;
       this.tokenExpiration = responseData.expiresIn;
@@ -52,6 +55,9 @@ export const useAuthStore = defineStore('auth', {
         throw error;
       }
 
+      localStorage.setItem('token', responseData.idToken)
+      localStorage.setItem('userId', responseData.localId)
+
       this.localId = responseData.localId;
       this.token = responseData.idToken;
       this.tokenExpiration = responseData.expiresIn;
@@ -60,10 +66,20 @@ export const useAuthStore = defineStore('auth', {
     },
     logout() {
       this.userId = null,
-      this.token = null,
-      this.tokenExpiration = null
+        this.token = null,
+        this.tokenExpiration = null
 
       this.router.replace('/devs');
+    },
+    tryLogin() {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+
+      if (token && userId) {
+        this.token = token;
+        this.userId = userId;
+        this.tokenExpiration = null;
+      }
     }
   }
 })
