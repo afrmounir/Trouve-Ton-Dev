@@ -5,7 +5,7 @@ export const useAuthStore = defineStore('auth', {
     return {
       userId: null,
       token: null,
-      tokenExpiration: null
+      timer: null
     }
   },
   getters: {
@@ -31,12 +31,17 @@ export const useAuthStore = defineStore('auth', {
         throw error;
       }
 
+      const expiresIn = responseData.expiresIn * 1000;
+      const expirationDate = new Date().getTime() + expiresIn;
+
       localStorage.setItem('token', responseData.idToken)
       localStorage.setItem('userId', responseData.localId)
+      localStorage.setItem('tokenExpiration', expirationDate)
 
-      this.localId = responseData.localId;
+      this.timer = setTimeout(this.logout, expiresIn);
+
+      this.userId = responseData.localId;
       this.token = responseData.idToken;
-      this.tokenExpiration = responseData.expiresIn;
     },
     async signup(API_URL, authData) {
       const response = await fetch(API_URL, {
@@ -58,27 +63,39 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('token', responseData.idToken)
       localStorage.setItem('userId', responseData.localId)
 
-      this.localId = responseData.localId;
+      this.userId = responseData.localId;
       this.token = responseData.idToken;
-      this.tokenExpiration = responseData.expiresIn;
 
       this.router.replace('/login');
     },
     logout() {
-      this.userId = null,
-        this.token = null,
-        this.tokenExpiration = null
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('tokenExpiration');
+
+      clearTimeout(this.$state.timer);
+
+      this.userId = null;
+      this.token = null;
 
       this.router.replace('/devs');
     },
     tryLogin() {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
+      const tokenExpiration = localStorage.getItem('tokenExpiration');
+
+      const expiresIn = +tokenExpiration - new Date().getTime();
+
+      if (expiresIn <= 0) {
+        return;
+      }
+
+      this.$state.timer = setTimeout(this.logout, expiresIn);
 
       if (token && userId) {
         this.token = token;
         this.userId = userId;
-        this.tokenExpiration = null;
       }
     }
   }
