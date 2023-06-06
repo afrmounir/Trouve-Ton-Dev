@@ -16,6 +16,14 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 npm install
 ```
 
+## Add a .env file
+
+```sh
+VITE_BASE_URL=https://trouve-ton-dev-296ec-default-rtdb.europe-west1.firebasedatabase.app/
+VITE_SIGNUP_ENDPOINT=https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAH7ft1kffwfZHbqlYv_Q_fUWINS2UJK9U
+VITE_LOGIN_ENDPOINT=https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAH7ft1kffwfZHbqlYv_Q_fUWINS2UJK9U
+```
+
 ### Compile and Hot-Reload for Development
 
 ```sh
